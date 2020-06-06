@@ -5,9 +5,24 @@ import re
 import argparse
 from argparse import RawTextHelpFormatter
 
+def parse_warnings(iterable, callback):
+  start_re = re.compile('^[^:]*:[0-9]+:[0-9]+: (warning|error)')
+  warning = None
+
+  for line in iterable:
+    if start_re.match(line):
+      if warning is not None:
+        callback(warning)
+
+      warning = [line]
+    elif warning is not None:
+      warning.append(line)
+
+  if warning is not None:
+    callback(warning)
+
 class GCCWarningsProcessor(object):
   def __init__(self, grep1=[], grep=[], grepv1=[], grepv=[], sep=None):
-    self.start_re = re.compile('^[^:]*:[0-9]+:[0-9]+: (warning|error)')
     self.grep1  = grep1
     self.grep   = grep
     self.grepv1 = grepv1
@@ -46,18 +61,7 @@ class GCCWarningsProcessor(object):
       GCCWarningsProcessor.__print_warning(lines)
 
   def process_warnings(self, iterable):
-    warning = None
-    for line in iterable:
-      if self.start_re.match(line):
-        if warning is not None:
-          self.__process_warning(warning)
-
-        warning = [line]
-      elif warning is not None:
-        warning.append(line)
-
-    if warning is not None:
-      self.__process_warning(warning)
+    parse_warnings(iterable, lambda w: self.__process_warning(w))
 
 def compile_patterns(patterns):
   if patterns is None or len(patterns) == 0:

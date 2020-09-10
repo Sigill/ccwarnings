@@ -1,0 +1,3 @@
+main.cpp:4:33: performance: Function parameter 's' should be passed by const reference. [passedByValue]
+std::string f(const std::string s) {
+                                ^

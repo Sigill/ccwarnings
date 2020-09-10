@@ -1,0 +1,12 @@
+main.cpp: In function ‘std::string f(const string&)’:
+main.cpp:12:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]
+   } catch (const std::exception ex) {
+                                 ^~
+main.cpp: In function ‘int main(int, char**)’:
+main.cpp:17:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
+ int main(int argc,
+          ~~~~^~~~
+main.cpp: At global scope:
+main.cpp:5:6: warning: ‘void {anonymous}::g()’ defined but not used [-Wunused-function]
+ void g() {
+      ^

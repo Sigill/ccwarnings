@@ -1,0 +1,3 @@
+main.cpp:12:5: style: Exception should be caught by reference. [catchExceptionByValue]
+  } catch (const std::exception ex) {
+    ^

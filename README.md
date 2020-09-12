@@ -28,6 +28,12 @@ python setup.py bdist_wheel --universal # might require pip install wheel
 pip install dist/gcc-warnings*.whl
 ```
 
+## Test
+
+```
+./test/test.py
+```
+
 ## License
 
 This tool is released under the terms of the MIT License. See the LICENSE.txt file for more details.

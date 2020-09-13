@@ -31,13 +31,13 @@ def main():
     parser.add_argument('--dst', dest='dst', metavar='N', action='store', type=positive_int, default=8,
                         help='Edition distance threshold used to identify new warnings (wrt the previous set of warnings).\n'
                         'Warnings with an edition distance < to this value will be considered as already known and will be dropped.')
-    parser.add_argument('--grep', dest='grep', metavar='regex', action='append', type=regex_arg, default=list(),
+    parser.add_argument('--grep', dest='grep', metavar='regex', nargs='+', type=regex_arg, default=list(),
                         help='Will only print warnings matching this expression.')
-    parser.add_argument('--grep1', dest='grep1', metavar='regex', action='append', type=regex_arg, default=list(),
+    parser.add_argument('--grep1', dest='grep1', metavar='regex', nargs='+', type=regex_arg, default=list(),
                         help='Will only print warnings whose first line matches this expression.')
-    parser.add_argument('--grepv', dest='grepv', metavar='regex', action='append', type=regex_arg, default=list(),
+    parser.add_argument('--grepv', dest='grepv', metavar='regex', nargs='+', type=regex_arg, default=list(),
                         help='Will not print warnings matching this expression.')
-    parser.add_argument('--grepv1', dest='grepv1', metavar='regex', action='append', type=regex_arg, default=list(),
+    parser.add_argument('--grepv1', dest='grepv1', metavar='regex', nargs='+', type=regex_arg, default=list(),
                         help='Will not print warnings whose first line matches this expression.')
     parser.add_argument('--sep', dest='sep', metavar='string', default='',
                         help='Optional separator to print between entries.')

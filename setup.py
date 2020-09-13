@@ -28,5 +28,5 @@ setuptools.setup(
             ],
         python_requires='>=2.6',
         install_requires=requirements,
-        scripts=['bin/gcc-warnings.py'],
+        scripts=['bin/gcc-warnings'],
         )

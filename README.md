@@ -17,8 +17,8 @@ This tool allows to group related lines into a single entity and apply grep-filt
 ## Building & packaging
 
 ```
-virtualenv venv
-source venv/bin/activate
+virtualenv .venv
+source .venv/bin/activate
 
 # Editable install, for development purpose
 pip install -e .

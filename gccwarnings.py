@@ -2,6 +2,9 @@ import re
 import editdistance
 
 
+VERSION = (0, 1, 0)
+
+
 def parse_warnings(iterable, callback):
     ctx_re = re.compile("^[^:\n]+: .*")
     # Exclude notes as they are used to provide additional informations to the enclosing warning

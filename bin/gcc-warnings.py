@@ -3,7 +3,7 @@
 import re
 import argparse
 from argparse import RawTextHelpFormatter
-from gccwarnings import parse_warnings, filter_warnings, fuzzy_find
+from gccwarnings import VERSION, parse_warnings, filter_warnings, fuzzy_find
 
 
 def regex_arg(string):
@@ -41,6 +41,8 @@ def main():
                         help='Will not print warnings whose first line matches this expression.')
     parser.add_argument('--sep', dest='sep', metavar='string', default='',
                         help='Optional separator to print between entries.')
+
+    parser.add_argument('--version', '-v', action='version', version='.'.join([str(v) for v in VERSION]))
 
     args = parser.parse_args()
 

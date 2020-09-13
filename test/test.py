@@ -51,7 +51,7 @@ class TestGCCWarnings(unittest.TestCase):
 
     def test_fuzzy(self):
         warnings = TestGCCWarnings.parse_warnings('test/warnings-1.log')
-        warnings = list(["\n".join(lines) for lines in warnings])
+        warnings = ["\n".join(lines) for lines in warnings]
         w = """main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,
           ~~~~^~~~"""

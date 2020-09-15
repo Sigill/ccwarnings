@@ -2,7 +2,7 @@ dependencies:
 	pip install -r requirements.txt
 
 dependencies-all: dependencies
-	pip install flake8
+	pip install flake8 unittest2
 
 test:
 	./test/test.py

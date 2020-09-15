@@ -2,11 +2,16 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import re
-import unittest
-pkgroot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, pkgroot)
+
+if sys.version_info >= (2, 7):
+    import unittest
+else:
+    import unittest2 as unittest
+from gccwarnings.utils import filter_warnings, FirstLineMatcher, AnyLineMatcher
 import gccwarnings
+
+
+pkgroot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 
 class TestGCCWarnings(unittest.TestCase):
@@ -28,13 +33,12 @@ class TestGCCWarnings(unittest.TestCase):
     def parse_warnings(filename):
         with open(os.path.join(pkgroot, filename)) as f:
             txt = f.read().splitlines()
-        warnings = list()
-        gccwarnings.parse_warnings(txt, lambda w: warnings.append(w))
+        warnings = [warning for warning in gccwarnings.utils.parse_warnings(txt)]
         return warnings
 
     def assert_parsed_warnings(self, filename, expected):
         warnings = TestGCCWarnings.parse_warnings(filename)
-        self.assertEqual(warnings, expected)
+        self.assertListEqual(warnings, expected)
 
     def test_parse_warnings_gcc(self):
         self.assert_parsed_warnings('test/warnings-1.log', [self.w1, self.w2, self.w3])
@@ -44,10 +48,19 @@ class TestGCCWarnings(unittest.TestCase):
 
     def test_filter(self):
         warnings = TestGCCWarnings.parse_warnings('test/warnings-1.log')
-        self.assertEqual(list(gccwarnings.filter_warnings(warnings, grep1=[re.compile('std')])), [self.w1])
-        self.assertEqual(list(gccwarnings.filter_warnings(warnings, grep=[re.compile('unused')])), [self.w2, self.w3])
-        self.assertEqual(list(gccwarnings.filter_warnings(warnings, grepv=[re.compile('int main')])), [self.w1, self.w3])
-        self.assertEqual(list(gccwarnings.filter_warnings(warnings, grep=[re.compile('{')], grepv1=[re.compile('{')])), [self.w1])
+        self.assertListEqual(list(filter_warnings(warnings,
+                                                  include=[FirstLineMatcher('std')])),
+                             [self.w1])
+        self.assertListEqual(list(filter_warnings(warnings,
+                                                  include=[AnyLineMatcher('unused')])),
+                             [self.w2, self.w3])
+        self.assertListEqual(list(filter_warnings(warnings,
+                                                  exclude=[AnyLineMatcher('int main')])),
+                             [self.w1, self.w3])
+        self.assertListEqual(list(filter_warnings(warnings,
+                                                  include=[AnyLineMatcher('{')],
+                                                  exclude=[FirstLineMatcher('{')])),
+                             [self.w1])
 
     def test_fuzzy(self):
         warnings = TestGCCWarnings.parse_warnings('test/warnings-1.log')
@@ -55,8 +68,8 @@ class TestGCCWarnings(unittest.TestCase):
         w = """main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,
           ~~~~^~~~"""
-        self.assertTrue(gccwarnings.fuzzy_find(w, warnings, 3))
-        self.assertFalse(gccwarnings.fuzzy_find(w, warnings, 2))
+        self.assertTrue(gccwarnings.utils.fuzzy_find(w, warnings, 3))
+        self.assertFalse(gccwarnings.utils.fuzzy_find(w, warnings, 2))
 
 
 if __name__ == '__main__':

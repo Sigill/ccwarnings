@@ -31,6 +31,12 @@ def positive_int(string):
     return i
 
 
+def extract_warnings(lines_iterable, include, exclude):
+    warnings = parse_warnings(lines_iterable)
+    warnings = filter_warnings(warnings, include=include, exclude=exclude)
+    return map(lambda lines: "\n".join(lines), warnings)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Utility to process warnings produced by GCC (and other tools producing GCC-like output).',
                                      formatter_class=RawTextHelpFormatter)
@@ -59,16 +65,12 @@ def main():
     include_patterns = args.include1 + args.include
     exclude_patterns = args.exclude1 + args.exclude
 
-    warnings = [warning for warning in parse_warnings(args.input.readlines())]
-    warnings = filter_warnings(warnings, include=include_patterns, exclude=exclude_patterns)
-    warnings = list(["\n".join(lines) for lines in warnings])
+    warnings = extract_warnings((line for line in args.input), include_patterns, exclude_patterns)
 
     if args.diff is not None:
-        prev = [warning for warning in parse_warnings(args.diff.readlines())]
-        prev = filter_warnings(prev, include=include_patterns, exclude=exclude_patterns)
-        prev = list(["\n".join(lines) for lines in prev])
+        prev = list(extract_warnings((line for line in args.diff), include_patterns, exclude_patterns))
 
-        warnings = [warning for warning in warnings if not fuzzy_find(warning, prev, args.dst)]
+        warnings = filter(lambda w: not fuzzy_find(w, prev, args.dst), warnings)
 
     for i, warning in enumerate(warnings):
         if i > 0 and args.sep is not None:

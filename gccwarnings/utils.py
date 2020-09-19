@@ -54,9 +54,4 @@ def filter_warnings(warnings, include=[], exclude=[]):
 
 
 def fuzzy_find(needle, haystack, dst_threshold=0):
-    for other in haystack:
-        dst = editdistance.distance(needle, other)
-        if dst < dst_threshold:
-            return True
-
-    return False
+    return any(editdistance.distance(needle, other) < dst_threshold for other in haystack)

@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
         name="gcc-warnings",
-        version='.'.join([str(v) for v in VERSION]),
+        version='.'.join(str(v) for v in VERSION),
         author="Cyrille Faucheux",
         author_email="cyrille.faucheux@gmail.com",
         description="Utility to process warnings produced by GCC (and other tools producing GCC-like output).",

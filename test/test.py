@@ -7,8 +7,8 @@ if sys.version_info >= (2, 7):
     import unittest
 else:
     import unittest2 as unittest
-from gccwarnings.utils import filter_warnings, FirstLineMatcher, AnyLineMatcher
-import gccwarnings
+from ccwarnings.utils import filter_warnings, FirstLineMatcher, AnyLineMatcher
+import ccwarnings
 
 
 pkgroot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -33,7 +33,7 @@ class TestGCCWarnings(unittest.TestCase):
     def parse_warnings(filename):
         with open(os.path.join(pkgroot, filename)) as f:
             txt = f.read().splitlines()
-        warnings = [warning for warning in gccwarnings.utils.parse_warnings(txt)]
+        warnings = [warning for warning in ccwarnings.utils.parse_warnings(txt)]
         return warnings
 
     def assert_parsed_warnings(self, filename, expected):
@@ -68,8 +68,8 @@ class TestGCCWarnings(unittest.TestCase):
         w = """main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,
           ~~~~^~~~"""
-        self.assertTrue(gccwarnings.utils.fuzzy_find(w, warnings, 3))
-        self.assertFalse(gccwarnings.utils.fuzzy_find(w, warnings, 2))
+        self.assertTrue(ccwarnings.utils.fuzzy_find(w, warnings, 3))
+        self.assertFalse(ccwarnings.utils.fuzzy_find(w, warnings, 2))
 
 
 if __name__ == '__main__':

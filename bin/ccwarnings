@@ -4,8 +4,8 @@ import sys
 import re
 import argparse
 from argparse import RawTextHelpFormatter
-from gccwarnings import VERSION
-from gccwarnings.utils import FirstLineMatcher, AnyLineMatcher, parse_warnings, filter_warnings, fuzzy_find
+from ccwarnings import VERSION
+from ccwarnings.utils import FirstLineMatcher, AnyLineMatcher, parse_warnings, filter_warnings, fuzzy_find
 
 
 def first_line_matcher(string):
@@ -41,12 +41,13 @@ def main():
     parser = argparse.ArgumentParser(description='Utility to process warnings produced by GCC (and other tools producing GCC-like output).',
                                      formatter_class=RawTextHelpFormatter)
     parser.add_argument('input', metavar='FILE', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
-                        help='Input warnings (defaults to stdin).')
+                        help='Input warnings (defaults: stdin).')
     parser.add_argument('--diff', dest='diff', metavar='FILE', type=argparse.FileType('r'),
                         help='Previous set of warnings to diff from.')
     parser.add_argument('--dst', dest='dst', metavar='N', type=positive_int, default=8,
                         help='To use with --diff to specify the edition distance threshold.\n'
-                             'Warnings with an edition distance < to this value will be considered as already known and will be dropped.')
+                             'Warnings with an edition distance < to this value will be considered as already known\n'
+                             'and will therefore be ignored (default: 8)')
     parser.add_argument('--include', metavar='PATTERN', nargs='+', type=any_line_matcher, default=list(),
                         help='Will only keep warnings matching one of the patterns.')
     parser.add_argument('--include1', metavar='PATTERN', nargs='+', type=first_line_matcher, default=list(),

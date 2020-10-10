@@ -1,4 +1,4 @@
-# gcc-warnings
+# ccwarnings
 
 Utility to process issues (warnings, errors) emmited by [GCC](https://gcc.gnu.org/) (and others tools like [clang](https://clang.llvm.org/), [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [cppcheck](http://cppcheck.sourceforge.net/)...).
 
@@ -17,31 +17,35 @@ This tool allows to group related lines into a single entity and apply grep-filt
 ## Usage
 
 ```
-$ gcc-warnings -h
-usage: gcc-warnings [-h] [--diff file] [--dst N] [--grep regex [regex ...]]
-                    [--grep1 regex [regex ...]] [--grepv regex [regex ...]]
-                    [--grepv1 regex [regex ...]] [--sep string] [--version]
-                    file
+$ ccwarnings -h
+usage: ccwarnings [-h] [--diff FILE] [--dst N]
+                  [--include PATTERN [PATTERN ...]]
+                  [--include1 PATTERN [PATTERN ...]]
+                  [--exclude PATTERN [PATTERN ...]]
+                  [--exclude1 PATTERN [PATTERN ...]] [--sep STRING]
+                  [--version]
+                  [FILE]
 
 Utility to process warnings produced by GCC (and other tools producing GCC-like output).
 
 positional arguments:
-  file                  Input set of warnings.
+  FILE                  Input warnings (defaults: stdin).
 
 optional arguments:
   -h, --help            show this help message and exit
-  --diff file           Previous set of warnings to diff from.
-  --dst N               Edition distance threshold used to identify new warnings (wrt the previous set of warnings).
-                        Warnings with an edition distance < to this value will be considered as already known and will be dropped.
-  --grep regex [regex ...]
-                        Will only print warnings matching this expression.
-  --grep1 regex [regex ...]
-                        Will only print warnings whose first line matches this expression.
-  --grepv regex [regex ...]
-                        Will not print warnings matching this expression.
-  --grepv1 regex [regex ...]
-                        Will not print warnings whose first line matches this expression.
-  --sep string          Optional separator to print between entries.
+  --diff FILE           Previous set of warnings to diff from.
+  --dst N               To use with --diff to specify the edition distance threshold.
+                        Warnings with an edition distance < to this value will be considered as already known
+                        and will therefore be ignored (default: 8)
+  --include PATTERN [PATTERN ...]
+                        Will only keep warnings matching one of the patterns.
+  --include1 PATTERN [PATTERN ...]
+                        Will only keep warnings whose first line is matching  one of the patterns.
+  --exclude PATTERN [PATTERN ...]
+                        Will discard warnings matching any of the patterns.
+  --exclude1 PATTERN [PATTERN ...]
+                        Will discard warnings whose first line is matching any of the patterns.
+  --sep STRING          Optional separator to print between entries.
   --version, -v         show program's version number and exit
 ```
 
@@ -56,7 +60,7 @@ pip install -e .
 
 # Standard install
 python setup.py bdist_wheel --universal # might require pip install wheel
-pip install dist/gcc-warnings*.whl
+pip install dist/ccwarnings*.whl
 ```
 
 ## Test

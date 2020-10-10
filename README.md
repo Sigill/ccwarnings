@@ -22,7 +22,7 @@ usage: ccwarnings [-h] [--diff FILE] [--dst N]
                   [--include PATTERN [PATTERN ...]]
                   [--include1 PATTERN [PATTERN ...]]
                   [--exclude PATTERN [PATTERN ...]]
-                  [--exclude1 PATTERN [PATTERN ...]] [--sep STRING]
+                  [--exclude1 PATTERN [PATTERN ...]] [--sep STRING] [-c]
                   [--version]
                   [FILE]
 
@@ -46,6 +46,7 @@ optional arguments:
   --exclude1 PATTERN [PATTERN ...]
                         Will discard warnings whose first line is matching any of the patterns.
   --sep STRING          Optional separator to print between entries.
+  -c, --count           Only print the number of warnings.
   --version, -v         show program's version number and exit
 ```
 

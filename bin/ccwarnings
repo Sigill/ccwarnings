@@ -58,6 +58,8 @@ def main():
                         help='Will discard warnings whose first line is matching any of the patterns.')
     parser.add_argument('--sep', dest='sep', metavar='STRING',
                         help='Optional separator to print between entries.')
+    parser.add_argument('-c', '--count', dest='count', action='store_true',
+                        help='Only print the number of warnings.')
 
     parser.add_argument('--version', '-v', action='version', version='.'.join(str(v) for v in VERSION))
 
@@ -73,11 +75,14 @@ def main():
 
         warnings = filter(lambda w: not fuzzy_find(w, prev, args.dst), warnings)
 
-    for i, warning in enumerate(warnings):
-        if i > 0 and args.sep is not None:
-            print(args.sep)
+    if args.count:
+        print(sum(1 for _ in warnings))
+    else:
+        for i, warning in enumerate(warnings):
+            if i > 0 and args.sep is not None:
+                print(args.sep)
 
-        print(warning)
+            print(warning)
 
 
 if __name__ == '__main__':

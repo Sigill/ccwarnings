@@ -1,8 +1,11 @@
-main.cpp: In function ‘std::string f(const string&)’:
+main.cpp: In function ‘std::string f(std::string, int)’:
 main.cpp:12:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]
    } catch (const std::exception ex) {
                                  ^~
 main.cpp: In function ‘int main(int, char**)’:
+main.cpp:20:27: warning: conversion from ‘double’ to ‘int’ changes value from ‘3.1400000000000001e+0’ to ‘3’ [-Wfloat-conversion]
+   std::cout << f(argv[0], 3.14) << std::endl;
+                           ^~~~
 main.cpp:17:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,
           ~~~~^~~~

@@ -1,4 +1,0 @@
-main.cpp: In function ‘int main(int, char**)’:
-main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
- int main(int argc,
-          ~~~~^~~~

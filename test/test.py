@@ -15,31 +15,31 @@ pkgroot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 
 class TestGCCWarnings(unittest.TestCase):
-    gcc1 = ["main.cpp:12:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]",
-            "   } catch (const std::exception ex) {",
-            "                                 ^~"]
-    gcc2 = ["main.cpp:20:27: warning: conversion from ‘double’ to ‘int’ changes value from ‘3.1400000000000001e+0’ to ‘3’ [-Wfloat-conversion]",
-            "   std::cout << f(argv[0], 3.14) << std::endl;",
-            "                           ^~~~"]
-    gcc3 = ["main.cpp:17:14: warning: unused parameter ‘argc’ [-Wunused-parameter]",
-            " int main(int argc,",
-            "          ~~~~^~~~"]
-    gcc4 = ["main.cpp:5:6: warning: ‘void {anonymous}::g()’ defined but not used [-Wunused-function]",
-            " void g() {",
-            "      ^"]
+    gcc1 = [u"main.cpp:12:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]",
+            u"   } catch (const std::exception ex) {",
+            u"                                 ^~"]
+    gcc2 = [u"main.cpp:20:27: warning: conversion from ‘double’ to ‘int’ changes value from ‘3.1400000000000001e+0’ to ‘3’ [-Wfloat-conversion]",
+            u"   std::cout << f(argv[0], 3.14) << std::endl;",
+            u"                           ^~~~"]
+    gcc3 = [u"main.cpp:17:14: warning: unused parameter ‘argc’ [-Wunused-parameter]",
+            u" int main(int argc,",
+            u"          ~~~~^~~~"]
+    gcc4 = [u"main.cpp:5:6: warning: ‘void {anonymous}::g()’ defined but not used [-Wunused-function]",
+            u" void g() {",
+            u"      ^"]
 
-    cppcheck1 = ["main.cpp:12:5: style: Exception should be caught by reference. [catchExceptionByValue]",
-                 "  } catch (const std::exception ex) {",
-                 "    ^"]
+    cppcheck1 = [u"main.cpp:12:5: style: Exception should be caught by reference. [catchExceptionByValue]",
+                 u"  } catch (const std::exception ex) {",
+                 u"    ^"]
 
-    cppcheck2 = ["main.cpp:9:33: performance: Function parameter 's' should be passed by const reference. [passedByValue]",
-                 "std::string f(const std::string s, int i) {",
-                 "                                ^"]
+    cppcheck2 = [u"main.cpp:9:33: performance: Function parameter 's' should be passed by const reference. [passedByValue]",
+                 u"std::string f(const std::string s, int i) {",
+                 u"                                ^"]
 
     @staticmethod
     def parse_warnings(filename):
-        with open(os.path.join(pkgroot, filename)) as f:
-            txt = f.read().splitlines()
+        with open(os.path.join(pkgroot, filename), 'rb') as f:
+            txt = f.read().decode("UTF-8").splitlines()
         warnings = [warning for warning in ccwarnings.utils.parse_warnings(txt)]
         return warnings
 
@@ -72,7 +72,7 @@ class TestGCCWarnings(unittest.TestCase):
     def test_fuzzy(self):
         warnings = TestGCCWarnings.parse_warnings('test/gcc-warnings.txt')
         warnings = ["\n".join(lines) for lines in warnings]
-        w = """main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
+        w = u"""main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,
           ~~~~^~~~"""
         self.assertTrue(ccwarnings.utils.fuzzy_find(w, warnings, 3))

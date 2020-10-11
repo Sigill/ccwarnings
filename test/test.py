@@ -41,13 +41,13 @@ class TestGCCWarnings(unittest.TestCase):
         self.assertListEqual(warnings, expected)
 
     def test_parse_warnings_gcc(self):
-        self.assert_parsed_warnings('test/warnings-1.log', [self.w1, self.w2, self.w3])
+        self.assert_parsed_warnings('test/gcc-warnings-1.txt', [self.w1, self.w2, self.w3])
 
     def test_parse_warnings_cppcheck(self):
-        self.assert_parsed_warnings('test/cppcheck-1.log', [self.p1])
+        self.assert_parsed_warnings('test/cppcheck-1.txt', [self.p1])
 
     def test_filter(self):
-        warnings = TestGCCWarnings.parse_warnings('test/warnings-1.log')
+        warnings = TestGCCWarnings.parse_warnings('test/gcc-warnings-1.txt')
         self.assertListEqual(list(filter_warnings(warnings,
                                                   include=[FirstLineMatcher('std')])),
                              [self.w1])
@@ -63,7 +63,7 @@ class TestGCCWarnings(unittest.TestCase):
                              [self.w1])
 
     def test_fuzzy(self):
-        warnings = TestGCCWarnings.parse_warnings('test/warnings-1.log')
+        warnings = TestGCCWarnings.parse_warnings('test/gcc-warnings-1.txt')
         warnings = ["\n".join(lines) for lines in warnings]
         w = """main.cpp:8:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
  int main(int argc,

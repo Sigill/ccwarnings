@@ -60,6 +60,8 @@ def main():
                         help='Optional separator to print between entries.')
     parser.add_argument('-c', '--count', dest='count', action='store_true',
                         help='Only print the number of warnings.')
+    parser.add_argument('-s', '--short', dest='short', action='store_true',
+                        help='Only print the first line of the warning.')
 
     parser.add_argument('--version', '-v', action='version', version='.'.join(str(v) for v in VERSION))
 
@@ -82,7 +84,10 @@ def main():
             if i > 0 and args.sep is not None:
                 print(args.sep)
 
-            print(warning)
+            if args.short:
+                print(warning.splitlines()[0])
+            else:
+                print(warning)
 
 
 if __name__ == '__main__':

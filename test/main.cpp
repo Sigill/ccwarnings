@@ -1,23 +1,30 @@
 #include <string>
-#include <iostream>
+#include <stdexcept>
+#include <cstdlib>
 
 namespace {
-void g() {
-}
+void useless_function() {}
 }
 
-std::string f(const std::string s, int i) {
+std::string should_pass_by_cref(const std::string s, int i) {
+  return s + std::to_string(i);
+}
+
+const char* has_notes(int i) {
+  static char buf[8];
+  snprintf(buf, sizeof(buf), "#%d", i);
+  return buf;
+}
+
+std::string bad_conversion(int i) {
+  const char* buf = has_notes(123456789);
+  return should_pass_by_cref(buf, i);
+}
+
+std::string should_catch_by_ref() {
   try {
-    return s + std::to_string(i);
+    return bad_conversion(123.456);
   } catch (const std::exception ex) {
     throw std::runtime_error(ex.what());
   }
 }
-
-int main(int argc,
-         char ** argv)
-{
-  std::cout << f(argv[0], 3.14) << std::endl;
-  return 0;
-}
-

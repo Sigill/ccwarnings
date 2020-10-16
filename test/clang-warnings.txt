@@ -1,0 +1,7 @@
+main.cpp:26:27: warning: implicit conversion from 'double' to 'int' changes value from 123.456 to 123 [-Wliteral-conversion]
+    return bad_conversion(123.456);
+           ~~~~~~~~~~~~~~ ^~~~~~~
+main.cpp:6:6: warning: unused function 'useless_function' [-Wunused-function]
+void useless_function() {}
+     ^
+2 warnings generated.

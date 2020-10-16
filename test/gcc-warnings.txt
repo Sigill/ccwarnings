@@ -1,15 +1,18 @@
-main.cpp: In function ‘std::string f(std::string, int)’:
-main.cpp:12:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]
+main.cpp: In function ‘std::__cxx11::string should_catch_by_ref()’:
+main.cpp:26:27: warning: conversion from ‘double’ to ‘int’ changes value from ‘1.23456e+2’ to ‘123’ [-Wfloat-conversion]
+     return bad_conversion(123.456);
+                           ^~~~~~~
+main.cpp:27:33: warning: catching polymorphic type ‘const class std::exception’ by value [-Wcatch-value=]
    } catch (const std::exception ex) {
                                  ^~
-main.cpp: In function ‘int main(int, char**)’:
-main.cpp:20:27: warning: conversion from ‘double’ to ‘int’ changes value from ‘3.1400000000000001e+0’ to ‘3’ [-Wfloat-conversion]
-   std::cout << f(argv[0], 3.14) << std::endl;
-                           ^~~~
-main.cpp:17:14: warning: unused parameter ‘argc’ [-Wunused-parameter]
- int main(int argc,
-          ~~~~^~~~
 main.cpp: At global scope:
-main.cpp:5:6: warning: ‘void {anonymous}::g()’ defined but not used [-Wunused-function]
- void g() {
-      ^
+main.cpp:6:6: warning: ‘void {anonymous}::useless_function()’ defined but not used [-Wunused-function]
+ void useless_function() {}
+      ^~~~~~~~~~~~~~~~
+main.cpp: In function ‘std::__cxx11::string bad_conversion(int)’:
+main.cpp:15:30: warning: ‘%d’ directive output truncated writing 9 bytes into a region of size 7 [-Wformat-truncation=]
+   snprintf(buf, sizeof(buf), "#%d", i);
+                              ^~~~~
+main.cpp:15:11: note: ‘snprintf’ output 11 bytes into a destination of size 8
+   snprintf(buf, sizeof(buf), "#%d", i);
+   ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~

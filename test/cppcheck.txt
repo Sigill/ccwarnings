@@ -1,6 +1,6 @@
-main.cpp:12:5: style: Exception should be caught by reference. [catchExceptionByValue]
+main.cpp:27:5: style: Exception should be caught by reference. [catchExceptionByValue]
   } catch (const std::exception ex) {
     ^
-main.cpp:9:33: performance: Function parameter 's' should be passed by const reference. [passedByValue]
-std::string f(const std::string s, int i) {
-                                ^
+main.cpp:9:51: performance: Function parameter 's' should be passed by const reference. [passedByValue]
+std::string should_pass_by_cref(const std::string s, int i) {
+                                                  ^
